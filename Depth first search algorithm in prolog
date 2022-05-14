@@ -1,0 +1,48 @@
+state(gate_a,gate_b).
+state(gate_a,gate_g).
+state(gate_b,gate_c).
+state(gate_b,gate_h).
+state(gate_h,gate_o).
+state(gate_c,gate_d).
+state(gate_d,gate_i).
+state(gate_d,gate_j).
+state(gate_i,gate_p).
+state(gate_p,gate_q).
+state(gate_j,gate_r).
+state(gate_r,hall).
+state(gate_g,gate_l).
+state(gate_g,gate_f).
+state(gate_l,gate_s).
+
+end(hall).
+
+
+route(Start, Solution):-
+    depth_first([], Start, Solution).
+
+goSolveTheMaze(Start, End):-
+	route(Start, Solution).
+
+% Base Case for stop
+depth_first(Path,Node,[Node|Path]):-
+    end(Node),
+    reverse([hall|Path],ReversedList),
+    write(ReversedList).
+
+
+
+% Recursive Case for iterating
+depth_first(Path, Node, Sol):-
+    state(Node, Next_Node),
+    not(member(Next_Node, Path)),
+    depth_first([Node|Path], Next_Node, Sol).
+
+
+/*
+printsolution([State, null],_):-
+        write(State).
+printsolution([State, Parent], Node):-
+        member([Parent, GrandParent], Node),
+        printsolution([Parent, GrandParent], Node),
+        write('->'),
+        write(State).*/
